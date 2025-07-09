@@ -1,0 +1,77 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #FDFBF8; /* Warm Neutral */
+    color: #4F4A45; /* Dark Brown/Grey */
+}
+
+.nav-link {
+    transition: color 0.3s, border-color 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #A47E3B; /* Subtle Accent */
+    border-bottom-color: #A47E3B;
+}
+
+.btn-primary {
+    background-color: #6B8A7A; /* Muted Green */
+    color: #FDFBF8;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #5A7B6A;
+}
+
+.btn-secondary {
+    background-color: #EFEBE4; /* Light Neutral */
+    color: #4F4A45;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-secondary:hover, .btn-secondary.active {
+    background-color: #A47E3B;
+    color: #FDFBF8;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    background-color: #FFFFFF;
+    border: 1px solid #EFEBE4;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 350px;
+    max-height: 400px;
+}
+
+@media (min-width: 768px) {
+    .chart-container {
+        height: 400px;
+    }
+}
+
+input[type="radio"]:checked + label {
+    background-color: #A47E3B;
+    color: #FDFBF8;
+    border-color: #A47E3B;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #6B8A7A;
+    border-color: #6B8A7A;
+}
