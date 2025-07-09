@@ -1,12 +1,11 @@
 /*
   This script handles all the interactive functionality for the Copper Falls Trip Planner.
-  It's loaded with 'defer' in the HTML to ensure it runs after the document is fully parsed.
+  It's wrapped in a DOMContentLoaded listener to ensure the HTML is ready before the script runs.
 */
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- Budget Calculator Logic ---
-    // Check if the budget chart element exists before proceeding
+    // --- Section 1: Interactive Budget Calculator ---
     const budgetChartElement = document.getElementById('budgetChart');
     if (budgetChartElement) {
         const budgetData = {
@@ -25,13 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const reservationFee = 7.95;
 
         const budgetCtx = budgetChartElement.getContext('2d');
-        let budgetChart = new Chart(budgetCtx, {
+        const budgetChart = new Chart(budgetCtx, {
             type: 'bar',
             data: {
                 labels: ['Campsite Fees', 'Food', 'Fuel', 'Misc.'],
                 datasets: [{
                     label: 'Estimated Cost ($)',
-                    data: [0, 0, 0, 0], // Initialized to zero
+                    data: [0, 0, 0, 0],
                     backgroundColor: ['#6B8A7A', '#A47E3B', '#4F4A45', '#EFEBE4'],
                     borderColor: '#FDFBF8',
                     borderWidth: 2
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if (label) {
                                     label += ': ';
                                 }
-                                // Access custom data properties for the range
                                 const low = context.dataset.low[context.dataIndex];
                                 const high = context.dataset.high[context.dataIndex];
                                 label += `$${low.toFixed(2)} - $${high.toFixed(2)}`;
@@ -60,13 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 },
                 scales: {
-                    x: {
-                        beginAtZero: true,
-                        title: { display: true, text: 'Cost (USD)' }
-                    },
-                    y: {
-                        grid: { display: false }
-                    }
+                    x: { beginAtZero: true, title: { display: true, text: 'Cost (USD)' }},
+                    y: { grid: { display: false } }
                 }
             }
         });
@@ -81,31 +74,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const lowData = [feesLow, foodCost[0], fuelCost[0], miscCost[0]];
             const highData = [feesHigh, foodCost[1], fuelCost[1], miscCost[1]];
-
-            // Calculate the average for the bar display
             const avgData = lowData.map((low, i) => (low + highData[i]) / 2);
 
-            // Update chart data
             budgetChart.data.datasets[0].data = avgData;
-            // Store the low/high ranges in the dataset for the tooltip
             budgetChart.data.datasets[0].low = lowData;
             budgetChart.data.datasets[0].high = highData;
             budgetChart.update();
             
-            // Update total cost display
             const totalLow = data.total[0];
             const totalHigh = data.total[1];
             document.getElementById('total-cost').textContent = `$${Math.round(totalLow)} - $${Math.round(totalHigh)}`;
         }
 
-        // Add event listeners and initialize the chart
         document.getElementById('residency-toggle').addEventListener('change', updateBudget);
         document.getElementById('site-type-toggle').addEventListener('change', updateBudget);
-        updateBudget(); // Initial call to set the chart on page load
+        updateBudget();
     }
 
-
-    // --- Trail Filtering Logic ---
+    // --- Section 2: Filterable Trail Guide ---
     const trailGrid = document.getElementById('trail-grid');
     if (trailGrid) {
         const trails = [
@@ -119,15 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
         ];
 
         function renderTrails(filter = 'all') {
-            trailGrid.innerHTML = ''; // Clear existing trails
-            const filteredTrails = filter === 'all' 
-                ? trails 
-                : trails.filter(trail => trail.tags.includes(filter));
+            trailGrid.innerHTML = '';
+            const filteredTrails = filter === 'all' ? trails : trails.filter(trail => trail.tags.includes(filter));
             
             filteredTrails.forEach(trail => {
                 const trailCard = document.createElement('div');
                 trailCard.className = 'card p-6';
-                
                 let featuresHTML = '';
                 if(trail.features.includes('waterfalls')) featuresHTML += '<span class="text-xs font-bold mr-2">🌊 WATERFALL</span>';
                 if(trail.features.includes('pet-friendly')) featuresHTML += '<span class="text-xs font-bold mr-2">🐾 PET-FRIENDLY</span>';
@@ -146,20 +129,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         document.getElementById('trail-filters').addEventListener('click', function(e) {
-            if(e.target.tagName === 'BUTTON') {
-                // Update active state on buttons
+            if (e.target.tagName === 'BUTTON') {
                 document.querySelectorAll('#trail-filters button').forEach(btn => btn.classList.remove('active'));
                 e.target.classList.add('active');
-                // Re-render the trails with the selected filter
                 renderTrails(e.target.dataset.filter);
             }
         });
         
-        renderTrails(); // Initial call to display all trails
+        renderTrails();
     }
 
-
-    // --- Interactive Checklist Logic ---
+    // --- Section 3: Interactive Packing Checklist ---
     const checklistContainer = document.getElementById('checklist-container');
     if (checklistContainer) {
         const checklistData = {
@@ -188,20 +168,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-    // --- Smooth Scrolling for Nav Links ---
+    // --- Section 4: Smooth Scrolling for Navigation Links ---
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function (e) {
             e.preventDefault();
-            let target = document.querySelector(this.getAttribute('href'));
-            if(target){
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
                 window.scrollTo({
-                    top: target.offsetTop - 80, // Adjust for sticky header height
+                    top: targetElement.offsetTop - 80, // Adjust for sticky header height
                     behavior: 'smooth'
                 });
             }
         });
     });
 
-});
+}); // This is the single, correct closing brace for the DOMContentLoaded event listener.
