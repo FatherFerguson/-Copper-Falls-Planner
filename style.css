@@ -1,9 +1,16 @@
+/*
+  This file contains the custom styles for the Copper Falls Trip Planner.
+  It works in conjunction with Tailwind CSS, which is loaded via CDN in the HTML file.
+*/
+
+/* --- Base Body and Font Styles --- */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #FDFBF8; /* Warm Neutral */
     color: #4F4A45; /* Dark Brown/Grey */
 }
 
+/* --- Navigation Link Styles --- */
 .nav-link {
     transition: color 0.3s, border-color 0.3s;
     border-bottom: 2px solid transparent;
@@ -14,6 +21,7 @@ body {
     border-bottom-color: #A47E3B;
 }
 
+/* --- Button Styles --- */
 .btn-primary {
     background-color: #6B8A7A; /* Muted Green */
     color: #FDFBF8;
@@ -36,6 +44,7 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* --- Card Element Styles --- */
 .card {
     background-color: #FFFFFF;
     border: 1px solid #EFEBE4;
@@ -49,6 +58,7 @@ body {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.07);
 }
 
+/* --- Budget Chart Container Styles --- */
 .chart-container {
     position: relative;
     width: 100%;
@@ -59,12 +69,14 @@ body {
     max-height: 400px;
 }
 
+/* Responsive adjustment for larger screens */
 @media (min-width: 768px) {
     .chart-container {
         height: 400px;
     }
 }
 
+/* --- Interactive Form Element Styles --- */
 input[type="radio"]:checked + label {
     background-color: #A47E3B;
     color: #FDFBF8;
@@ -72,6 +84,7 @@ input[type="radio"]:checked + label {
 }
 
 input[type="checkbox"]:checked {
+    /* These styles are applied via Tailwind classes in the HTML, but this is a fallback */
     background-color: #6B8A7A;
     border-color: #6B8A7A;
 }
